@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Scatter } from 'react-chartjs-2';
-import { FormGroup } from 'react-bootstrap/lib';
-import { ControlLabel } from 'react-bootstrap/lib';
-import { FormControl } from 'react-bootstrap/lib';
 
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 class App extends Component {
@@ -165,7 +162,7 @@ class App extends Component {
             labels: ['Scatter'],
             datasets: [
                 {
-                    label: 'My First dataset',
+                    label: 'dataset',
                     fill: true,
                     backgroundColor: 'rgba(75,192,192,0.4)',
                     pointBorderColor: 'rgba(75,192,192,1)',
@@ -190,33 +187,33 @@ class App extends Component {
 
         return (
             <div className="container mb-5">
-                <h1 className="mt-3 text-center">7th WINFO Test</h1>
+                <h1 className="mt-3 text-center">DataAud</h1>
+                <h3 className="text-center">By Elisa Truong, Zhuo Shan, Anni Yan, William Kwok</h3>
 
-                <FormGroup controlId="formControlsSelect">
+                {/* <FormGroup controlId="formControlsSelect">
                     <ControlLabel>Select an option below</ControlLabel>
                     <FormControl componentClass="select" placeholder="select">
                         <option value="select" selected disabled>Select</option>
                         <option value="other">Data Table 1</option>
                         <option value="other">Data Graph 1</option>
                     </FormControl>
-                </FormGroup>
+                </FormGroup> */}
                 <Scatter className="m-3" data={data} />
 
                 <div style={{
                     backgroundColor: "rgba(75,192,192,1)",
-                    width: 600,
+                    width: '100%',
                     margin: 'auto',
                     // margin: 10,
                     padding: 0,
                     height: 50,
                     marginBottom: 10
                 }} onMouseMove={(e) => {
-                    // console.log(e.pageX, e.target.offsetLeft)
-                    let percentage = (e.pageX - e.target.offsetLeft) / (600)
+                    let percentage = (e.pageX - e.target.offsetLeft) / (e.target.offsetWidth)
                     this.playToneAt(percentage);
                 }}></div>
 
-                <div style={{ margin: 'auto', textAlign: 'center' }}>
+                <div style={{ margin: 'auto', textAlign: 'center', width: '50%' }}>
                     {[{
                         name: "equation",
                         placeholder: "Enter an equation"
@@ -227,20 +224,20 @@ class App extends Component {
                     },
                     { name: "max", placeholder: "Enter a max value" }
                     ].map(d => {
-                        return <input name={d.name} placeholder={d.placeholder} onChange={(e) => {
+                        return <input name={d.name} className="form-control" style={{ marginBottom: 10 }} placeholder={d.placeholder} onChange={(e) => {
                             this.setData(e);
                         }} />
                     })}
 
                     <div>
-                        <button onClick={(e) => {
+                        <button className="btn btn-primary" onClick={(e) => {
                             e.preventDefault();
                             this.submitEquation();
                         }}>Submit equation</button>
                     </div>
                 </div>
 
-                <div style={{ margin: 'auto', textAlign: 'center' }}>
+                <div style={{ margin: 'auto', textAlign: 'center', width: '50%', marginTop: 10 }}>
                     {[{
                         name: "x",
                         placeholder: "x values"
@@ -250,22 +247,31 @@ class App extends Component {
                         placeholder: "y values"
                     }
                     ].map(d => {
-                        return <input name={d.name} placeholder={d.placeholder} onChange={(e) => {
+                        return <input name={d.name} className="form-control" style={{ marginBottom: 10 }} placeholder={d.placeholder} onChange={(e) => {
                             this.setData(e);
                         }} />
                     })}
 
                     <div>
-                        <button onClick={(e) => {
+                        <button className="btn btn-primary" onClick={(e) => {
                             e.preventDefault();
                             this.submitCustomData();
-                        }}>use custom data</button>
+                        }}>Submit custom data</button>
                     </div>
                 </div>
 
-
-
-
+                <div>
+                    <h2>How to use equation</h2>
+                    <ol>
+                        <li>Enter an equation in JavaScript format</li>
+                        <li>Enter the start of your x range</li>
+                        <li>Enter the end of your x range</li>
+                    </ol>
+                    <h2>How to use custom data</h2>
+                    <ol>
+                        <li>Enter your x and y values comma separated with no spaces</li>
+                    </ol>
+                </div>
             </div>
         );
     }
