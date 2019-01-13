@@ -52,6 +52,41 @@ class App extends Component {
         return true;
     }
 
+    submitCustomData = () => {
+        let { x, y } = this.state;
+        let xValues = x.split(',');
+        let yValues = y.split(',');
+
+        if (xValues.length !== yValues.length) {
+            throw new Error('invalid sizes');
+        }
+
+        let finalVals = {}
+        let minX, maxX, minY, maxY;
+        xValues.forEach((d, i) => {
+            let xval = Number(d)
+            let yval = Number(yValues[i])
+            finalVals[xval] = yval;
+
+            if (!minX || xval < minX) {
+                minX = xval;
+            }
+
+            if (!maxX || xval > maxX) {
+                maxX = xval;
+            }
+
+            if (!minY || yval < minY) {
+                minY = yval;
+            }
+
+            if (!maxY || yval > maxY) {
+                maxY = yval;
+            }
+        });
+        this.setState({ data: this.changeDataIntoPercentages(finalVals, minX, maxX, minY, maxY) })
+    }
+
     playNote(frequency, duration, callback) {
         duration = duration / 1000; // seconds
 
@@ -111,9 +146,7 @@ class App extends Component {
                     maxY = y;
                 }
             }
-            this.setState({ data: this.changeDataIntoPercentages(finalvals, min, max, minY, maxY) }, () => {
-                console.log(this.state.data)
-            })
+            this.setState({ data: this.changeDataIntoPercentages(finalvals, min, max, minY, maxY) })
         }
     }
 
@@ -196,6 +229,30 @@ class App extends Component {
                         }}>Submit equation</button>
                     </div>
                 </div>
+
+                <div style={{ margin: 'auto', textAlign: 'center' }}>
+                    {[{
+                        name: "x",
+                        placeholder: "x values"
+                    },
+                    {
+                        name: "y",
+                        placeholder: "y values"
+                    }
+                    ].map(d => {
+                        return <input name={d.name} placeholder={d.placeholder} onChange={(e) => {
+                            this.setData(e);
+                        }} />
+                    })}
+
+                    <div>
+                        <button onClick={(e) => {
+                            e.preventDefault();
+                            this.submitCustomData();
+                        }}>use custom data</button>
+                    </div>
+                </div>
+
 
 
 
